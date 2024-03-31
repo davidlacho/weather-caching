@@ -1,31 +1,27 @@
 import { Request, Response } from 'express';
 import { WeatherService } from '../services/weatherService';
 import { OpenWeatherMapService } from '../services/OpenWeatherMapService';
-import { DynamoDBCache } from '../caches/DynamoDBCache';
 
 import { WeatherData } from '../models/WeatherData';
 import { InMemoryCache } from '../caches/InMemoryCache';
 import { ICache } from '../caches/ICache';
+import { RedisCache } from '../caches/RedisCache';
 
 export const getWeatherByCity = async (
-  { params }: Request,
+  { params, query }: Request,
   res: Response
 ): Promise<Response<WeatherData | { message: string }>> => {
   const { city } = params;
+  const { forceUpdate = 'false' } = query;
 
   if (!city) {
     return res.status(400).json({ message: 'City is required' });
   }
 
-  let cache: ICache;
-
-  if (process.env.ENVIROMENT === 'PROD') {
-    // Use DynamoDBCache in production
-    cache = new DynamoDBCache('weather');
-  } else {
-    // Use InMemoryCache in development
-    cache = InMemoryCache.getInstance();
-  }
+  const cache: ICache =
+    process.env.ENVIRONMENT === 'PROD'
+      ? RedisCache.getInstance()
+      : InMemoryCache.getInstance();
 
   try {
     const weatherService = new WeatherService(
@@ -33,7 +29,11 @@ export const getWeatherByCity = async (
       new OpenWeatherMapService()
     );
 
-    const data: WeatherData = await weatherService.fetchWeatherData(city);
+    const data: WeatherData = await weatherService.fetchWeatherData(
+      city,
+      forceUpdate === 'true'
+    );
+
     return res.json(data);
   } catch (error) {
     console.error(error);

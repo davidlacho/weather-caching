@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  app:
+    build: .
+    ports:
+      - '${PORT}:${PORT}'
+    environment:
+      - PORT=${PORT}
+      - OPEN_WEATHER_MAP_API_KEY=${OPEN_WEATHER_MAP_API_KEY}
+      - REDIS_URL=${REDIS_URL}
+      - ENVIRONMENT=${ENVIRONMENT}
+    depends_on:
+      - redis
+    networks:
+      - app-network
+
+  redis:
+    image: 'redis:latest'
+    ports:
+      - '6379:6379'
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
