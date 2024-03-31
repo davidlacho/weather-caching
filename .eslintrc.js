@@ -17,7 +17,7 @@ module.exports = {
     '@typescript-eslint',
   ],
   rules: {
-    "@typescript-eslint/explicit-function-return-type": "on",
+    "@typescript-eslint/explicit-function-return-type": 1,
     'indent': ['error', 2],
     'linebreak-style': ['error', 'unix'], 
     'quotes': ['error', 'single'],

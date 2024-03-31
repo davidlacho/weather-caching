@@ -10,6 +10,12 @@ export class InMemoryCache implements ICache {
   private constructor() {}
 
   private static instance: InMemoryCache;
+
+  // Disabling @typescript-eslint/no-explicit-any here because the
+  // InMemoryCache should be flexible enough to handle values
+  // of any type.
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private cache: Record<string, CacheEntry<any>> = {};
 
   public static getInstance(): InMemoryCache {
