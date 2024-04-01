@@ -1,4 +1,4 @@
-import { ICache } from './ICache';
+import { ICache } from "./ICache";
 
 type CacheEntry<T> = {
   value: T;
