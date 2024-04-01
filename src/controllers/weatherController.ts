@@ -8,10 +8,12 @@ import { ICache } from '../caches/ICache';
 import { RedisCache } from '../caches/RedisCache';
 import { WeatherServiceError } from '../services/ServiceErrors';
 
+import { WeatherControllerError } from './ControllerErrors';
+
 export const getWeatherByCity = async (
   { params, query }: Request,
-  res: Response,
-): Promise<Response<WeatherData | { message: string }>> => {
+  res: Response
+): Promise<Response<WeatherData | WeatherControllerError>> => {
   const { city } = params;
   const { forceUpdate = 'false' } = query;
 
@@ -27,11 +29,15 @@ export const getWeatherByCity = async (
   try {
     const weatherService = new WeatherService(
       cache,
-      new OpenWeatherMapService(),
+      new OpenWeatherMapService()
     );
 
     const data: WeatherData | WeatherServiceError =
       await weatherService.fetchWeatherData(city, forceUpdate === 'true');
+
+    if ('error' in data) {
+      return res.status(data.statusCode).json(data);
+    }
 
     return res.json(data);
   } catch (error) {
