@@ -1,13 +1,13 @@
-import { createClient } from "redis";
+import { createClient } from 'redis';
 
-import { ICache } from "./ICache";
+import { ICache } from './ICache';
 
 export class RedisCache implements ICache {
   private static instance: RedisCache;
   private client;
 
   private constructor() {
-    console.log("Setting up Redis client");
+    console.log('Setting up Redis client');
     this.client = createClient({
       url: process.env.REDIS_URL,
     });
@@ -27,7 +27,7 @@ export class RedisCache implements ICache {
       const value = await this.client.get(key);
       return value ? (JSON.parse(value) as T) : null;
     } catch (error) {
-      console.error("Redis get error:", error);
+      console.error('Redis get error:', error);
       return null;
     }
   }
@@ -37,7 +37,7 @@ export class RedisCache implements ICache {
       const stringValue = JSON.stringify(value);
       await this.client.setEx(key, ttl, stringValue);
     } catch (error) {
-      console.error("Redis set error:", error);
+      console.error('Redis set error:', error);
     }
   }
 }

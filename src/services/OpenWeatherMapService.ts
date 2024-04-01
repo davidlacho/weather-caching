@@ -1,14 +1,14 @@
-import axios from "axios";
+import axios from 'axios';
 
-import { WeatherData } from "../models/WeatherData";
+import { WeatherData } from '../models/WeatherData';
 
-import { IWeatherService } from "./IWeatherService";
-import { WeatherServiceError } from "./ServiceErrors";
+import { IWeatherService } from './IWeatherService';
+import { WeatherServiceError } from './ServiceErrors';
 
 export class OpenWeatherMapService implements IWeatherService {
   constructor(private apiKey: string = process.env.OPEN_WEATHER_MAP_API_KEY!) {
     if (!this.apiKey) {
-      throw new Error("OpenWeatherMap API key is required");
+      throw new Error('OpenWeatherMap API key is required');
     }
   }
 
@@ -35,12 +35,12 @@ export class OpenWeatherMapService implements IWeatherService {
     } catch (error) {
       if (axios.isAxiosError(error)) {
         return {
-          error: error.response?.data.message || "An unexpected error occurred",
+          error: error.response?.data.message || 'An unexpected error occurred',
           statusCode: error.response?.status || 500,
         };
       } else {
         return {
-          error: "An unexpected error occurred",
+          error: 'An unexpected error occurred',
           statusCode: 500,
         };
       }

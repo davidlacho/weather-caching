@@ -1,8 +1,8 @@
-import { IWeatherService } from "../src/services/IWeatherService";
-import { ICache } from "../src/caches/ICache";
-import { WeatherService } from "../src/services/weatherService";
+import { IWeatherService } from '../src/services/IWeatherService';
+import { ICache } from '../src/caches/ICache';
+import { WeatherService } from '../src/services/weatherService';
 
-describe("WeatherService", () => {
+describe('WeatherService', () => {
   let weatherService: WeatherService;
   let mockWeatherService: IWeatherService;
   let mockCache: ICache;
@@ -19,9 +19,9 @@ describe("WeatherService", () => {
     weatherService = new WeatherService(mockCache, mockWeatherService);
   });
 
-  it("fetches weather data from the cache if available", async () => {
-    const city = "TestCity";
-    const cachedData = { city: "TestCity", temperature: 20 };
+  it('fetches weather data from the cache if available', async () => {
+    const city = 'TestCity';
+    const cachedData = { city: 'TestCity', temperature: 20 };
 
     (mockCache.get as jest.Mock).mockResolvedValue(cachedData);
 
@@ -31,9 +31,9 @@ describe("WeatherService", () => {
     expect(mockWeatherService.getWeatherData).not.toHaveBeenCalled();
   });
 
-  it("fetches weather data from the weather service and caches it if not in cache", async () => {
-    const city = "TestCity";
-    const weatherData = { city: "TestCity", temperature: 25 };
+  it('fetches weather data from the weather service and caches it if not in cache', async () => {
+    const city = 'TestCity';
+    const weatherData = { city: 'TestCity', temperature: 25 };
 
     (mockCache.get as jest.Mock).mockResolvedValue(null);
     (mockWeatherService.getWeatherData as jest.Mock).mockResolvedValue(

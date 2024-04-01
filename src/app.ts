@@ -1,7 +1,7 @@
-import express from "express";
-import dotenv from "dotenv";
+import express from 'express';
+import dotenv from 'dotenv';
 
-import weatherRoutes from "./routes/weatherRoutes";
+import weatherRoutes from './routes/weatherRoutes';
 
 dotenv.config();
 
@@ -10,7 +10,7 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
-app.use("/weather", weatherRoutes);
+app.use('/weather', weatherRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
