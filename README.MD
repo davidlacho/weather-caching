@@ -4,6 +4,11 @@
 
 This service provides real-time weather information by integrating with the OpenWeatherMap API. It is designed for efficiency and scalability, utilizing a caching strategy to enhance response times and minimize external API requests.
 
+### Code Walkthrough
+
+[![Video](https://cdn.loom.com/sessions/thumbnails/5d12b5fa05a34810a032665cadbef806-with-play.gif)](https://www.loom.com/embed/5d12b5fa05a34810a032665cadbef806 "Video")
+
+
 ### Service Architecture
 
 Key components of the architecture include:
